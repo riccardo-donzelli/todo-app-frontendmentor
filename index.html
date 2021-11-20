@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
+  <title>Frontend Mentor | Todo app</title>
+</head>
+<body>
+
+  <div class="background bg-light">
+    <div id="main">
+        <div id="title">
+          <h1>TODO</h1>
+          <label class="switch">
+            <input type="checkbox" id="theme-toggle">
+            <div class="moon-icon" id="icon-box"></div>
+          </label>
+        </div>
+        <input type="text" name="input" id="input-field" placeholder="Create a new todo...">
+        <input type="submit" id="enter-btn">
+        <div id="todo-list">
+          <ul id="list">
+            <li class="list-item draggable" draggable="true">prova 1<span><img src="./images/icon-cross.svg" class="cancelThisItem"></span></li>
+            <li class="list-item draggable" draggable="true">prova 2<span><img src="./images/icon-cross.svg"  class="cancelThisItem"></span></li>
+            <li class="list-item draggable" draggable="true">prova 3<span><img src="./images/icon-cross.svg"  class="cancelThisItem"></span></li>
+          </ul>
+          <div id="last-line" class="last-line">
+            <p id="counter"><span id="number"></span> items left</p>
+            <div class="filters-section-large" data-filter-large>
+              <p class="filter" id="all">All</p>
+              <p class="filter" id="active-selection">Active</p> 
+              <p class="filter" id="completed-selection">Completed</p>
+            </div>
+            <p id="clear-completed">Clear Completed</p>
+          </div>
+          <div id="filters" class="filters-section-small">
+            <p class="filter" id="all">All</p>
+            <p class="filter" id="active-selection">Active</p> 
+            <p class="filter" id="completed-selection">Completed</p>
+          </div>    
+          <p id="drag-instruction">Drag and drop to reorder list</p>
+        </div>
+        <!-- footer frontend mentor -->
+        <div class="attribution">
+          Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+          Coded by <a href="#">Riccardo Donzelli</a>.
+        </div>
+      </div> <!-- end main div -->
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
