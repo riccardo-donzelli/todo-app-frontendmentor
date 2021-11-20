@@ -48,9 +48,10 @@ function todo() {
             '<span><img src="./images/icon-cross.svg" class="cancelThisItem"></span>';
         //make the new item draggable adding the attribute:
         let dragAttribute = document.createAttribute("draggable");
-        attribute.value = "true";
+        dragAttribute.value = "true";
         newItem.setAttributeNode(dragAttribute);
-        newItem.classList.add("list-item draggable");
+        newItem.classList.add("list-item");
+        newItem.classList.add("draggable");
         list.appendChild(newItem);
     }
     // reset input field
