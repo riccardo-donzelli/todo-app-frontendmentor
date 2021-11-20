@@ -122,7 +122,7 @@ function filter(e) {
 // EVENT LISTENERS
 toggle.addEventListener("click", themeSwitch);
 enterInput.addEventListener("click", todo);
-input.addEventListener("keyup", pressEnter);
+input.addEventListener("keydown", pressEnter);
 list.addEventListener("click", cancelTodo);
 list.addEventListener("click", completedTodo);
 list.addEventListener("mouseover", showCancelItem);
