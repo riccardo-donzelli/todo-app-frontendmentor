@@ -51,6 +51,9 @@ function todo() {
         dragAttribute.value = "true";
         newItem.setAttributeNode(dragAttribute);
         newItem.classList.add("list-item");
+        if (toggle.checked) {
+            newItem.classList.add("list-item-dark");
+        }
         newItem.classList.add("draggable");
         list.appendChild(newItem);
     }
