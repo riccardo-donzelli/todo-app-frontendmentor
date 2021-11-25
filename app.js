@@ -183,6 +183,8 @@ function removeLocalTodos(todo) {
 document.addEventListener("DOMContentLoaded", getTodos);
 toggle.addEventListener("click", themeSwitch);
 enterInput.addEventListener("click", todo);
+input.addEventListener("focus", () => input.setAttribute("placeholder", ''));
+input.addEventListener("blur", () => input.setAttribute("placeholder", 'Create a new todo...'));
 input.addEventListener("keydown", pressEnter);
 list.addEventListener("click", cancelTodo);
 list.addEventListener("click", completedTodo);
