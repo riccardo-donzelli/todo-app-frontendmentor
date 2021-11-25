@@ -57,6 +57,8 @@ function todo() {
         newItem.classList.add("draggable");
         list.appendChild(newItem);
     }
+    // save new todo item in local storage
+    saveLocalTodos(inputValue);
     // reset input field
     input.value = "";
     // update counter
@@ -83,6 +85,7 @@ function cancelTodo(e) {
     let target = e.target;
     let grandparent = target.parentNode.parentNode;
     list.removeChild(grandparent);
+    removeLocalTodos(grandparent);
     counter();
 }
 
@@ -90,6 +93,7 @@ function clearAllCompleted() {
     [...listItems].map(function(el) {
         if (el.classList.contains("completed")) {
             list.removeChild(el);
+            removeLocalTodos(el);
         }
     })
     counter();
@@ -122,7 +126,61 @@ function filter(e) {
     }  
 }
 
+// FOLLOWING LOCAL STORAGE FUNCTIONS
+function saveLocalTodos(todo) {
+    let todos;
+
+    if (localStorage.getItem("todos") === null ) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    todos.push(todo);
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+function getTodos() {
+    let todos;
+
+    if (localStorage.getItem("todos") === null ) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+
+    todos.forEach( function(todo) {
+        let newTodo = document.createElement("li");
+        newTodo.innerHTML = todo + 
+            '<span><img src="./images/icon-cross.svg" class="cancelThisItem"></span>';
+        //make the new item draggable:
+        let dragAttribute = document.createAttribute("draggable");
+        dragAttribute.value = "true";
+        newTodo.setAttributeNode(dragAttribute);
+        newTodo.classList.add("list-item");
+        if (toggle.checked) {
+            newTodo.classList.add("list-item-dark");
+        }
+        newTodo.classList.add("draggable");
+        list.appendChild(newTodo);
+    });
+}
+
+function removeLocalTodos(todo) {
+    let todos;
+    if (localStorage.getItem("todos") === null) {
+        todos = [];
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"));
+    }
+    let item = todo.children[0].innerText;
+    const todoIndex = todos.indexOf(item);
+    todos.splice(todoIndex, 1);
+    localStorage.setItem("todos", JSON.stringify(todos));
+}
+
 // EVENT LISTENERS
+// get todos list if there are any in Local Storage:
+document.addEventListener("DOMContentLoaded", getTodos);
 toggle.addEventListener("click", themeSwitch);
 enterInput.addEventListener("click", todo);
 input.addEventListener("keydown", pressEnter);
