@@ -178,6 +178,59 @@ function removeLocalTodos(todo) {
     localStorage.setItem("todos", JSON.stringify(todos));
 }
 
+// DRAG & DROP FUNCTIONALITY:
+function dragAndDrop() {
+    listItemsArray.forEach(el => {
+        el.addEventListener('dragstart', () => {
+            el.classList.add('dragging');
+        })
+    
+        el.addEventListener('dragend', () => {
+            el.classList.remove('dragging');
+        })
+    })
+    
+    list.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(e.clientY);
+        // current dragging element is the only has dragging class
+        const draggable = document.querySelector('.dragging');
+
+        console.log(afterElement)
+
+        // drag & drop finally:
+        if (afterElement == null) {
+            list.appendChild(draggable);
+        } else {
+            list.insertBefore(draggable, afterElement);
+        }
+    })
+    
+    function getDragAfterElement(y) {
+        const draggableElements = [...list.querySelectorAll('.draggable:not(.dragging)')];
+    
+        return draggableElements.reduce((closest, child) => {
+            // I need measure of the DOM rectangle containing each list item:
+            const box = child.getBoundingClientRect();
+            // to position us at the center of the box:
+            const offset = y - box.top - box.height / 2;
+    
+            /*
+            when we are dragging an element and we are below another element we get positive offset, 
+            above we get negatives instead.
+            We care only about negative offset values, because we just need to know when we are
+            dragging something over another list item.        
+            */
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+}
+
+// ===========================================================
 // EVENT LISTENERS
 // get todos list if there are any in Local Storage:
 document.addEventListener("DOMContentLoaded", getTodos);
@@ -192,6 +245,3 @@ list.addEventListener("mouseover", showCancelItem);
 filtersSection.addEventListener("click", filter);
 filtersLarge.addEventListener("click", filter);
 clearCompleted.addEventListener("click", clearAllCompleted);
-
-// ===========================================================
-// DRAG & DROP FUNCTIONALITY:
