@@ -1,3 +1,4 @@
+//const { off } = require("superagent");
 const body = document.body;
 const main = document.getElementById("main");
 const toggle = document.getElementById("theme-toggle");
@@ -7,7 +8,6 @@ const filtersSection = document.getElementById("filters");
 const filtersLarge = document.querySelector("[data-filter-large]");
 // List & items
 const listItems = document.getElementsByClassName("list-item");
-const draggables = document.querySelectorAll('.draggable');
 let list = document.getElementById("list");
 // Inputs & buttons
 const enterInput = document.getElementById("enter-btn");
@@ -15,6 +15,8 @@ const cancelItem = document.getElementsByClassName("cancelThisItem");
 const clearCompleted = document.getElementById("clear-completed");
 let input = document.getElementById("input-field");
 let counterItems = document.getElementById("number");
+
+dragAndDrop();
 
 // FUNCTIONS
 function themeSwitch() {
@@ -45,18 +47,20 @@ function todo() {
         let newItem = document.createElement("li");
         newItem.innerHTML = inputValue + 
             '<span><img src="./images/icon-cross.svg" class="cancelThisItem"></span>';
-        //make the new item draggable adding the attribute:
-        let dragAttribute = document.createAttribute("draggable");
-        dragAttribute.value = "true";
-        newItem.setAttributeNode(dragAttribute);
-        newItem.classList.add("list-item");
+            newItem.classList.add("list-item");
+            newItem.classList.add("draggable");
+            //make the new item draggable adding the attribute:
+            let dragAttribute = document.createAttribute("draggable");
+            newItem.setAttributeNode(dragAttribute);
+            dragAttribute.value = "true";
         if (toggle.checked) {
             newItem.classList.add("list-item-dark");
         }
-        newItem.classList.add("draggable");
         list.appendChild(newItem);
+        dragAndDrop();
     }
-    // save new todo item in local storage
+    
+    // save new item in local storage (see function)
     saveLocalTodos(inputValue);
     // reset input field
     input.value = "";
@@ -84,8 +88,8 @@ function cancelTodo(e) {
     let target = e.target;
     let grandparent = target.parentNode.parentNode;
     list.removeChild(grandparent);
-    removeLocalTodos(grandparent);
     counter();
+    removeLocalTodos(grandparent);
 }
 
 function clearAllCompleted() {
@@ -125,7 +129,7 @@ function filter(e) {
     }  
 }
 
-// FOLLOWING LOCAL STORAGE FUNCTIONS
+// LOCAL STORAGE FUNCTIONS:
 function saveLocalTodos(todo) {
     let todos;
 
@@ -136,7 +140,7 @@ function saveLocalTodos(todo) {
     }
     todos.push(todo);
     localStorage.setItem("todos", JSON.stringify(todos));
-}
+ }
 
 function getTodos() {
     let todos;
@@ -178,8 +182,10 @@ function removeLocalTodos(todo) {
 }
 
 // DRAG & DROP FUNCTIONALITY:
+// https://www.youtube.com/watch?v=jfYWwQrtzzY&list=PL0vhF-8XFmTIiZ8MvLhuAk_pBBQPGDbSd&index=28&t=60s&ab_channel=WebDevSimplified
 function dragAndDrop() {
     const listItemsArray = document.querySelectorAll("#list li");
+
     listItemsArray.forEach(el => {
         el.addEventListener('dragstart', () => {
             el.classList.add('dragging');
@@ -230,9 +236,7 @@ function dragAndDrop() {
     }
 }
 
-// ===========================================================
 // EVENT LISTENERS
-// get todos list if there are any in Local Storage:
 document.addEventListener("DOMContentLoaded", getTodos);
 toggle.addEventListener("click", themeSwitch);
 enterInput.addEventListener("click", todo);
