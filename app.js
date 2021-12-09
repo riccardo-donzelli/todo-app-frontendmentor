@@ -7,7 +7,6 @@ const filtersSection = document.getElementById("filters");
 const filtersLarge = document.querySelector("[data-filter-large]");
 // List & items
 const listItems = document.getElementsByClassName("list-item");
-const listItemsArray = document.querySelectorAll("#list li");
 const draggables = document.querySelectorAll('.draggable');
 let list = document.getElementById("list");
 // Inputs & buttons
@@ -180,6 +179,7 @@ function removeLocalTodos(todo) {
 
 // DRAG & DROP FUNCTIONALITY:
 function dragAndDrop() {
+    const listItemsArray = document.querySelectorAll("#list li");
     listItemsArray.forEach(el => {
         el.addEventListener('dragstart', () => {
             el.classList.add('dragging');
